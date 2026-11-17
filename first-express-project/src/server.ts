@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import express, { type Application, type Request, type Response } from "express"
 import { appendFile } from "fs";
 import {Pool} from "pg"
@@ -10,7 +11,7 @@ app.use(express.text());
 app.use(express.urlencoded({ extended: true }))
 
 const pool = new Pool({
-    connectionString: "postgresql://neondb_owner:npg_zx2QaPkDpn3N@ep-weathered-queen-b3e6lqve.c-4.ap-southeast-1.aws.neon.tech/neondb?sslmode=false&channel_binding=require"
+    connectionString: `${process.env.CREDENTIAL}`
 })
 // console.log(pool)
 
