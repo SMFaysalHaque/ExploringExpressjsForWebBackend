@@ -1,9 +1,7 @@
-import { config } from "dotenv";
+import config from "./config/index";
 import express, { type Application, type Request, type Response } from "express"
 import { appendFile } from "fs";
 import {Pool} from "pg"
-
-config();
 
 const app: Application = express()
 // app.set('etag', false);
@@ -14,7 +12,7 @@ app.use(express.text());
 app.use(express.urlencoded({ extended: true }))
 
 const pool = new Pool({
-    connectionString: `${process.env.CREDENTIAL}`
+    connectionString: config.connection_string
 })
 // console.log(pool)
 
@@ -198,6 +196,6 @@ app.delete('/api/v1/users/:id', async (req: Request, res: Response) => {
     }
 })
 
-app.listen(port, () => {
+app.listen(config.port, () => {
   console.log(`Example app listening on port ${port}`)
 })
