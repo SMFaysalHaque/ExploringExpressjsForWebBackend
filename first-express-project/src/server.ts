@@ -5,7 +5,7 @@ import {Pool} from "pg"
 
 const app: Application = express()
 // app.set('etag', false);
-const port = 5000
+// const port = 8000
 
 app.use(express.json());
 app.use(express.text());
@@ -197,5 +197,5 @@ app.delete('/api/v1/users/:id', async (req: Request, res: Response) => {
 })
 
 app.listen(config.port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${config.port}`)
 })
