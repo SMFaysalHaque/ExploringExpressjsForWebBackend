@@ -1,7 +1,7 @@
 
 import express, { type Application, type Request, type Response } from "express"
-import { appendFile } from "fs";
-import { initDB, pool } from "./db";
+import { pool } from "./db";
+import { userRoute } from "./modules/users/user.route";
 
 
 const app: Application = express()
@@ -11,6 +11,10 @@ const app: Application = express()
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }))
+
+app.use("/api/v1/users", userRoute);
+
+
 
 
 // app.get('/', (req: Request, res: Response) => {
@@ -22,30 +26,7 @@ app.use(express.urlencoded({ extended: true }))
 //     })
 // })
 
-app.post("/api/v1/users", async (req: Request, res: Response) => {
-    try {
-    const { name, email, password, age } = req.body
 
-    const result = await pool.query(`
-        INSERT INTO users (name, email, password, age) VALUES ($1, $2, $3, $4) RETURNING *   
-        `,
-        [name, email, password, age],
-    )
-    // console.log(result)
-
-    res.status(201).json({
-        success: true,
-        message: "User Created!",
-        data: result.rows[0]
-    })
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error?.message,
-            error: error
-        })
-    }
-})
 
 app.get('/api/v1/users', async (req: Request, res: Response) => {
     try {
