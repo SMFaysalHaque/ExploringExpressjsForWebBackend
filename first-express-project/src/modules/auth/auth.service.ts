@@ -40,10 +40,14 @@ const loginUserInToDB = async (payload: {email: string; password: string}) => {
     }
 
     const accessToken = jwt.sign(jwtPayload, config.jwt_secret, {
-        expiresIn: "1d",
+        expiresIn: "1h",
     })
 
-    return { accessToken, user: user.rows[0] };
+    const refreshToken = jwt.sign(jwtPayload, config.refresh_secret, {
+        expiresIn: "10d",
+    })
+
+    return { accessToken, refreshToken, user: user.rows[0] };
 }
 
 export const authService = {

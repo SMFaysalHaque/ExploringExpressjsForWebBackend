@@ -5,12 +5,20 @@ import { profileRoute } from "./modules/profile/profile.route";
 import { authRouter } from "./modules/auth/auth.route";
 import logger from './middleware/logger';
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
+import cors from "cors"
+
 
 
 const app: Application = express()
 // app.set('etag', false);
 // const port = 8000
 
+var corsOptions = {
+  origin: ['http://localhost:3000'],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
 app.use(express.json()); // middleware
 app.use(express.text()); // middleware
 app.use(express.urlencoded({ extended: true })) // middleware
