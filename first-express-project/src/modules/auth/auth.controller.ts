@@ -9,11 +9,11 @@ const loginUser = async (req: Request, res: Response) => {
 
         res.cookie("refreshToken", refreshToken, {
             secure: false, // http -> false, https -> true / In production -> true
-            httpOnly: true, //prevent xss attack
+            httpOnly: true, // prevent xss attack
             sameSite: "lax", // "none", "strict", "lax" -> CSRF
             // maxAge:
             path: "/",
-            domain: "localhost"
+            domain: "localhost" // example.com
         })
 
         res.status(200).json({
@@ -31,6 +31,26 @@ const loginUser = async (req: Request, res: Response) => {
     }
 }
 
+const generateToken = async (req: Request, res: Response) => {
+    try {
+        const result = await authService.generateAccessToken(req.cookies.refreshToken);
+
+        res.status(200).json({
+            success: false,
+            message: "Access token generated successfully!",
+            data: result
+        })
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error?.message,
+            error: error
+        })
+    }
+}
+
 export const authController = {
-    loginUser, 
+    loginUser,
+    generateToken
 }
